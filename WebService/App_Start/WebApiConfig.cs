@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Web.Http;
 using Microsoft.Owin.Security.OAuth;
 using Newtonsoft.Json.Serialization;
+using System.Web.Http.Cors;
 
 namespace WebService
 {
@@ -16,6 +17,13 @@ namespace WebService
             // 將 Web API 設定成僅使用 bearer 權杖驗證。
             config.SuppressDefaultHostAuthentication();
             config.Filters.Add(new HostAuthenticationFilter(OAuthDefaults.AuthenticationType));
+
+            // Enable CORS
+            var cors = new EnableCorsAttribute(
+                origins: "http://localhost:25536",
+                headers: "*",
+                methods: "*");
+            config.EnableCors(cors);
 
             // Web API 路由
             config.MapHttpAttributeRoutes();
